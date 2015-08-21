@@ -48,6 +48,7 @@ short get_led(short x, short y) {
   return LED_COLUMNS[x][y];
 }
 
+/*
 /////////// Letters
 
 // A
@@ -58,9 +59,12 @@ short LETTER_A[][2] = {
   {0, 4},         {2, 4}
 };
 
+short LETTER_B[][2] = {
+  
+}
 
+/////////// */
 
-///////////
 
 Adafruit_NeoPixel front = Adafruit_NeoPixel(NUM_LEDS, FRONT_PIN, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel back = Adafruit_NeoPixel(NUM_LEDS, BACK_PIN, NEO_GRB + NEO_KHZ800);
@@ -282,22 +286,22 @@ void line_sweep() {
   flush();
   for (short column = 0; column < COLUMNS; column++) {
     for (short row = 0; row < ROWS; row++) {
-      set_pixel(LED_COLUMNS[column][row], red, green, blue);
+      set_pixel(get_led(column, row), red, green, blue);
     }
     flush();
     for (short row = 0; row < ROWS; row++) {
-      set_pixel(LED_COLUMNS[column][row], 0, 0, 0);
+      set_pixel(get_led(column, row), 0, 0, 0);
     }
   }
   flush();
 
   for (short row = 0; row < ROWS; row++) {
     for (short column = 0; column < COLUMNS; column++) {
-      set_pixel(LED_COLUMNS[column][row], red, green, blue);
+      set_pixel(get_led(column, row), red, green, blue);
     }
     flush();
     for (short column = 0; column < COLUMNS; column++) {
-      set_pixel(LED_COLUMNS[column][row], 0, 0, 0);
+      set_pixel(get_led(column, row), 0, 0, 0);
     }
   }
   flush();
@@ -306,22 +310,22 @@ void line_sweep() {
 
   for (short column = COLUMNS - 1; column >= 0; column--) {
     for (short row = 0; row < ROWS; row++) {
-      set_pixel(LED_COLUMNS[column][row], red, green, blue);
+      set_pixel(get_led(column, row), red, green, blue);
     }
     flush();
     for (short row = 0; row < ROWS; row++) {
-      set_pixel(LED_COLUMNS[column][row], 0, 0, 0);
+      set_pixel(get_led(column, row), 0, 0, 0);
     }
   }
   flush();
 
   for (short row = ROWS - 1; row >= 0; row--) {
     for (short column = 0; column < COLUMNS; column++) {
-      set_pixel(LED_COLUMNS[column][row], red, green, blue);
+      set_pixel(get_led(column, row), red, green, blue);
     }
     flush();
     for (short column = 0; column < COLUMNS; column++) {
-      set_pixel(LED_COLUMNS[column][row], 0, 0, 0);
+      set_pixel(get_led(column, row), 0, 0, 0);
     }
   }
   flush();
@@ -341,12 +345,12 @@ void boxes() {
      // draw a box 
     reset();
     for (short col = x; col < COLUMNS; col++) {
-      set_pixel(LED_COLUMNS[col][y], red, green, blue);
-      set_pixel(LED_COLUMNS[col][ROWS - 1], red, green, blue);
+      set_pixel(get_led(col, y), red, green, blue);
+      set_pixel(get_led(col, ROWS - 1), red, green, blue);
     }
     for (short row = y; row < ROWS; row++) {
-      set_pixel(LED_COLUMNS[x][row], red, green, blue);
-      set_pixel(LED_COLUMNS[COLUMNS - 1][row], red, green, blue);
+      set_pixel(get_led(x, row), red, green, blue);
+      set_pixel(get_led(COLUMNS - 1, row), red, green, blue);
     }
     flush();
     
@@ -363,12 +367,12 @@ void boxes() {
      // draw a box 
     reset();
     for (short col = 0; col <= x; col++) {
-      set_pixel(LED_COLUMNS[col][y], red, green, blue);
-      set_pixel(LED_COLUMNS[col][1], red, green, blue);
+      set_pixel(get_led(col, y), red, green, blue);
+      set_pixel(get_led(col, 1), red, green, blue);
     }
     for (short row = 0; row <= y; row++) {
-      set_pixel(LED_COLUMNS[x][row], red, green, blue);
-      set_pixel(LED_COLUMNS[0][row], red, green, blue);
+      set_pixel(get_led(x, row), red, green, blue);
+      set_pixel(get_led(0, row), red, green, blue);
     }
     flush();
     
@@ -391,12 +395,12 @@ void boxes() {
      // draw a box 
     reset();
     for (short col = x; col < COLUMNS; col++) {
-      set_pixel(LED_COLUMNS[col][y], red, green, blue);
-      set_pixel(LED_COLUMNS[col][1], red, green, blue);
+      set_pixel(get_led(col, y), red, green, blue);
+      set_pixel(get_led(col, 1), red, green, blue);
     }
     for (short row = 1; row <= y; row++) {
-      set_pixel(LED_COLUMNS[x][row], red, green, blue);
-      set_pixel(LED_COLUMNS[COLUMNS - 1][row], red, green, blue);
+      set_pixel(get_led(x, row), red, green, blue);
+      set_pixel(get_led(COLUMNS - 1, row), red, green, blue);
     }
     flush();
     
@@ -413,12 +417,12 @@ void boxes() {
      // draw a box 
     reset();
     for (short col = 0; col <= x; col++) {
-      set_pixel(LED_COLUMNS[col][y], red, green, blue);
-      set_pixel(LED_COLUMNS[col][ROWS - 1], red, green, blue);
+      set_pixel(get_led(col, y), red, green, blue);
+      set_pixel(get_led(col, ROWS - 1), red, green, blue);
     }
     for (short row = y; row < ROWS; row++) {
-      set_pixel(LED_COLUMNS[x][row], red, green, blue);
-      set_pixel(LED_COLUMNS[0][row], red, green, blue);
+      set_pixel(get_led(x, row), red, green, blue);
+      set_pixel(get_led(0, row), red, green, blue);
     }
     flush();
     
@@ -515,8 +519,8 @@ void pong() {
 
 void pong_board(short x, short y, short left_y, short right_y, short red, short green, short blue) {
   reset();
-  set_pixel(LED_COLUMNS[0][left_y], 255, 255, 255);
-  set_pixel(LED_COLUMNS[0][right_y], 255, 255, 255);
-  set_pixel(LED_COLUMNS[x][y], red, green, blue);
+  set_pixel(get_led(0, left_y), 255, 255, 255);
+  set_pixel(get_led(0, right_y), 255, 255, 255);
+  set_pixel(get_led(x, y), red, green, blue);
   flush();
 }
